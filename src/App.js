@@ -1,18 +1,7 @@
-import React, {useState} from "react";
+import Counter from "./Counter";
 
-function App() {
-    const onBtnIncreaseClicked = ()  => {
-    setNum(num + 1);
-  };
-
-  const [num, setNum] = useState(0);
-
-  
-
-  return (
-  <>
-    Num : {0}, <button onClick={onBtnIncreaseClicked}>증가</button>
-  </>)
+function App() { 
+  return (<><Counter/></>);
 }
 
 export default App;
