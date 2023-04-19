@@ -1,7 +1,11 @@
-import Counter from "./Counter";
+import NoRecord from "./NoRecord";
 
-function App() { 
-  return (<><Counter/></>);
+function App() {
+  return (
+   <>
+    <NoRecord />
+   </>
+  );
 }
 
 export default App;

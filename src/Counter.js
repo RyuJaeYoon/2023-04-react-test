@@ -10,10 +10,10 @@ export default function Counter() {
         </>
     );
 
-    const noIsNot8NultipleDiv = no % 8 == 0 || (
+    const noIsNot8NultipleDiv = no % 8  == 0  ||( 
         <>
-        <hr/>
-        <div>8의 배수가 아닙니다.</div>
+            <hr/>
+            <div>8의 배수가 아닙니다.</div>
         </>
     );
     // no % 2 == 0 ? (
@@ -28,15 +28,20 @@ export default function Counter() {
     //   </>
     // );
 
-    return(
+    return (
        <>
         숫자 : {no}
         <hr />
         <button onClick={() => setno(no + 1)}>증가</button>
         {noIsEvenDiv}
-       
-
+        {no % 8 == 0 ? (
+            <>
+            <hr/>
+            <div>8의 배수입니다</div>
+            </>
+        ) : (
+        <></>
+        )}
        </>
     );
-    
-}
+};
