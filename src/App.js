@@ -31,7 +31,7 @@ function App() {
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi illum nam at eveniet. Tempora ducimus aliquid ipsa repudiandae accusamus quas magni, illum maiores? Assumenda cumque, molestias blanditiis vel placeat doloremque!
       </div>
 
-      <h1 className= "color-pirmary">안녕,반가워</h1>
+      <h1 className= "color-primary">안녕,반가워</h1>
      </div>
     </>
   );
