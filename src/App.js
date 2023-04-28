@@ -1,39 +1,77 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useMemo} from "react";
 
-let AppCallCount=0;
+function isPrimeNumber(no) {
+  for ( let i = 2; i < no; i++){
+      if(i*i > no){
+          break
+      }
+      
+      if( no % i == 0) {
+          return false;
+      }
+  }
+  
+  return true;
+}
+
+function getPrimeNumbers(max)
+{
+  const primeNumbers = [];
+  for (let i = 2; i <= max; i++ ){
+      if ( isPrimeNumber(i)){
+          primeNumbers.push(i);
+      }
+  }
+  
+  return primeNumbers;
+}
+
+function getPrimeNumbersCount(max){
+  return getPrimeNumbers(max).length;
+}
 
 function App() {
-  AppCallCount++;
-  console.log(`AppCallCount : ${AppCallCount}`);
+  const [inputedNo, setInputedNo] = useState(0);
+  const [no, setNo] = useState(0);
 
-  const [no, setNo] =useState(0);
-  const [isDark, setIsDark] = useState(false);
+  const primeNumbersCount = useMemo(() => getPrimeNumbersCount(inputedNo),[inputedNo])
+  
 
-  useEffect(()=> {
-    const html = document.getElementsByTagName("html")[0];
-    
-    if (isDark) {
-      html.classList.add('dark');
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    const form = e.target;
+
+    form.number.value = form.number.value. trim();
+
+    if( form.number.value.length == 0){
+      alert('숫자를 입력해주세요.');
+      form.number.focus();
+
+      return;
     }
-    else {
-      html.classList.remove("dark");
-    }
-  })
+
+    const number = form.number.valueAsNumber;
+    form.number.focus();
+
+    setInputedNo(number);
+  };
   return ( 
-    <>
-     <div>
-      <button className="btn btn-outline" onClick={() => setNo(no+1)}>App버튼 : {no}</button>
-      <button className="btn btn-outline" onClick={() => setIsDark(!isDark)}>테마토글 : {no}</button>
-      
-      <hr />
-     
-      <div>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi illum nam at eveniet. Tempora ducimus aliquid ipsa repudiandae accusamus quas magni, illum maiores? Assumenda cumque, molestias blanditiis vel placeat doloremque!
-      </div>
-
-      <h1 className= "color-primary">안녕,반가워</h1>
-     </div>
-    </>
+     <>
+      <button onClick={() => setNo(no+1)}>번호 : {no}</button>
+      <hr /> 
+      <form onSubmit={onSubmit}>
+        <input 
+          type="number" 
+          name="number" 
+          placeholder="숫자를 입력해주세요." 
+          defaultValue="0" 
+        />
+        <input type="submit" value="확인" />
+        <hr />
+        <div>MAX : {inputedNo}</div>
+        <div>소수의 개수 : {primeNumbersCount}</div>
+      </form></>
   );
 }
 export default App;
