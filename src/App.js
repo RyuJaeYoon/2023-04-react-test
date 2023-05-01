@@ -30,48 +30,44 @@ function getPrimeNumbersCount(max){
   return getPrimeNumbers(max).length;
 }
 
+let PrimeNosCountCallCount = 0;
+
+function PrimeNosCount({max}) {
+  
+  PrimeNosCountCallCount++;
+  console.log(`PrimeNosCountCallCount : ${PrimeNosCountCallCount}`)
+  
+  const count = useMemo(() => getPrimeNumbersCount(max),[max]);
+  
+  return (
+    <div style={{border: '10px solid black', padding: 50}}>
+      {max}사이에 존재하는 소스의 개수는 {count}개 이다.
+    </div>
+  );
+}
+
+const MemoizedPrimeNosCount = React.memo(PrimeNosCount);
+
+let AppCallCount = 0;
+
 function App() {
-  const [inputedNo, setInputedNo] = useState(0);
+  AppCallCount++;
+  console.log(`AppCallCount : ${AppCallCount}`);
+  
   const [no, setNo] = useState(0);
 
-  const primeNumbersCount = useMemo(() => getPrimeNumbersCount(inputedNo),[inputedNo])
-  
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-
-    const form = e.target;
-
-    form.number.value = form.number.value. trim();
-
-    if( form.number.value.length == 0){
-      alert('숫자를 입력해주세요.');
-      form.number.focus();
-
-      return;
-    }
-
-    const number = form.number.valueAsNumber;
-    form.number.focus();
-
-    setInputedNo(number);
-  };
   return ( 
-     <>
-      <button onClick={() => setNo(no+1)}>번호 : {no}</button>
-      <hr /> 
-      <form onSubmit={onSubmit}>
-        <input 
-          type="number" 
-          name="number" 
-          placeholder="숫자를 입력해주세요." 
-          defaultValue="0" 
-        />
-        <input type="submit" value="확인" />
-        <hr />
-        <div>MAX : {inputedNo}</div>
-        <div>소수의 개수 : {primeNumbersCount}</div>
-      </form></>
+    <>
+      <MemoizedPrimeNosCount max={100}/>
+      <hr />
+      <MemoizedPrimeNosCount max={200}/>
+      <hr />
+      <MemoizedPrimeNosCount max={300}/>
+      <hr />
+      <MemoizedPrimeNosCount max={5000000}/>
+      <hr />
+      <button onClick={()=> setNo(no+1)}>버튼 : {no}</button>
+    </>
   );
 }
 export default App;
