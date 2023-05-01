@@ -1,45 +1,65 @@
-import React, {useState, useCallback} from "react";
+import React,{useState} from "react";
+// import Order from "./Order"
 
-
-
-let SubCallCount = 0;
-
-function Sub({ no1, no2, calculateFunc }) {
-  SubCallCount++;
-  console.log(`SubCallCount : ${SubCallCount}`);
-
-  return (
-    <>
-      <div style={{ border: "10px solid red", padding: 10 }}>
-        입력 : {no1}, {no2}
-        <br />
-        결과 : {calculateFunc(no1, no2)}
-      </div>
-    </>
-  );
-}
-
-
-const MemoizedSub = React.memo(Sub);
-
-let AppCallCount = 0;
 
 function App() {
-  AppCallCount++;
-  console.log(`AppCallCount : ${AppCallCount}`);
+  const fruits = ["사과","바나나","배"];
 
-  const [no1, setNo1] = useState(0);
-  const [no2, setNo2] = useState(0);
+  const [selectedGender,setSelectedGender] = useState("W");
 
-  const calculateFunc = useCallback((a, b) => a + b + no1, [no1]);
+  const [selecteds, setSelecteds] =useState(new Array(fruits.length).fill(true));
 
+  const toggleFruitSelected = (index) => {
+    const newSelecteds = selecteds.map((el, _index)=> _index==index ? !el : el);
+    setSelecteds(newSelecteds)
+  }
+
+  const selectedsFruits = selecteds.map((el,index)=> (el ? fruits[index]:el)).filter((el)=> el);
   return (
     <>
-      <button onClick={() => setNo1(no1 + 1)}>버튼1 : {no1}</button>
+    <ul>
+      {fruits.map((fruit, index)=> (
+        <li key={index}>
+          <label>
+            <input 
+              type="checkbox" 
+              onChange={()=> toggleFruitSelected(index)}
+              checked={selecteds[index]}
+            />
+            {fruit}
+          </label>
+        </li>
+      ))}
+    </ul>
+
+    <div>
+      선택 상태 :  {selecteds.join(",")}
       <hr />
-      <button onClick={() => setNo2(no2 + 1)}>버튼2 : {no2}</button>
-      <hr />
-      <MemoizedSub no1={10} no2={20} calculateFunc={calculateFunc} />
+      선택 상태 :  {selectedsFruits.join(",")}
+    </div>
+    {/* <Order /> */}
+
+    <hr />
+
+    <h1>라디오 버튼</h1>
+
+    <label>
+      <input 
+        type="radio" 
+        name="gender" 
+        onChange={(e)=> setSelectedGender("M")} 
+        checked={selectedGender=="M"}/>
+      남성
+    </label>
+    <label>
+      <input 
+        type="radio" 
+        name="gender" 
+        onChange={(e)=> setSelectedGender("W")} 
+        checked={selectedGender=="W"}/>
+      여성
+    </label>
+    <div>현재 값{selectedGender}</div>
     </>
   );
 }
